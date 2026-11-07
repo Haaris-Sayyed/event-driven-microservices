@@ -1,0 +1,9 @@
+# Project exclude paths
+/accounts/target/
+/cards/target/
+/customer/target/
+/eurekaserver/target/
+/gatewayserver/target/
+/loans/target/
+
+.idea
