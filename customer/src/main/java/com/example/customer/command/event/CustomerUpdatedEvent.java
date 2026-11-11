@@ -1,5 +1,8 @@
 package com.example.customer.command.event;
 
+import lombok.Data;
+
+@Data
 public class CustomerUpdatedEvent {
     private String customerId;
     private String name;
