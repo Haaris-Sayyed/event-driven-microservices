@@ -8,14 +8,17 @@ import com.example.customer.command.event.CustomerDeletedEvent;
 import com.example.customer.command.event.CustomerUpdatedEvent;
 import com.example.customer.entity.Customer;
 import com.example.customer.exception.CustomerAlreadyExistsException;
+import com.example.customer.exception.ResourceNotFoundException;
 import com.example.customer.repository.CustomerRepository;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
+import org.axonframework.eventsourcing.eventstore.EventStore;
 import org.axonframework.modelling.command.AggregateIdentifier;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.spring.stereotype.Aggregate;
 import org.springframework.beans.BeanUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 @Aggregate
@@ -55,7 +58,15 @@ public class CustomerAggregate {
     }
 
     @CommandHandler
-    public void handle(UpdateCustomerCommand updateCustomerCommand){
+    public void handle(UpdateCustomerCommand updateCustomerCommand, EventStore eventStore){
+        /**
+         *    List<?> commands = eventStore.readEvents(updateCustomerCommand.getCustomerId()).asStream()
+         *                 .toList();
+         *    if(commands.isEmpty()){
+         *       throw new ResourceNotFoundException("Customer", "customerId", updateCustomerCommand.getCustomerId());
+         *    }
+         */
+
         CustomerUpdatedEvent customerUpdatedEvent = new CustomerUpdatedEvent();
         BeanUtils.copyProperties(updateCustomerCommand, customerUpdatedEvent);
         AggregateLifecycle.apply(customerUpdatedEvent);
