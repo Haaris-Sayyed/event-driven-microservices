@@ -1,5 +1,6 @@
 package com.example.customer.mapper;
 
+import com.example.customer.command.event.CustomerUpdatedEvent;
 import com.example.customer.dto.CustomerDto;
 import com.example.customer.entity.Customer;
 
@@ -22,6 +23,12 @@ public class CustomerMapper {
         if(customerDto.isActiveSw()) {
             customer.setActiveSw(customerDto.isActiveSw());
         }
+        return customer;
+    }
+
+    public static Customer mapEventToCustomer(CustomerUpdatedEvent event, Customer customer) {
+        customer.setName(event.getName());
+        customer.setEmail(event.getEmail());
         return customer;
     }
 
